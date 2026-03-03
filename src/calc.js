@@ -11,7 +11,7 @@ function calculateResistivity(material) {
       iacsPercent = 100.0; // Standard mjukglödgad koppar är 100%
       break;
     case "silver":
-      iacsPercent = 105.0; // Silver leder bättre än koppar
+      iacsPercent = 105.0; 
       break;
     case "gold":
       iacsPercent = 70.0;
@@ -33,6 +33,13 @@ function calculateResistivity(material) {
   return resistivity;
 }
 
+
+/**
+ * Maximal ström för ytan i mm2
+ * @param {*} area 
+ * @param {*} isBundled 
+ * @returns Max ampere
+ */
 function getMaxCurrentForArea(area, isBundled = false) {
   // En förenklad modell av IEC-tabeller för PVC-kabel i luft
   // Kapaciteten ökar inte linjärt med arean
@@ -109,3 +116,7 @@ console.log("10amp 12v 7m:", minimumWireSizeFormula(10, 12, 7, "copper", 0.01).r
 console.log("3amp 5V 1m:", minimumWireSizeFormula(3, 5, 1, "copper").recommended, "mm2");
 
 console.log("50amp 12V 3.5m:", minimumWireSizeFormula(50, 12, 3.5, "copper", 0.01).recommended, "mm2");
+
+console.log("Max antal ampere för 15mm2 kabel :", getMaxCurrentForArea(15), "A");
+
+console.log("Resistivitet för guld", calculateResistivity("gold"), "Ω·m");

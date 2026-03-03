@@ -1,0 +1,25 @@
+{
+  "name": "wiregauge",
+  "version": "1.0.0",
+  "description": "Calculate cable width",
+  "keywords": [
+    "Electrical",
+    "Boat",
+    "Camping"
+  ],
+  "homepage": "https://github.com/martinahlqvist/WireGauge#readme",
+  "bugs": {
+    "url": "https://github.com/martinahlqvist/WireGauge/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/martinahlqvist/WireGauge.git"
+  },
+  "license": "GPL-3.0-or-later",
+  "author": "Martin Ahlqvist",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}

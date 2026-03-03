@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "Calculate cable width",
   "keywords": [
-    "Electrical",
-    "Boat",
-    "Camping"
+    "Wire",
+    "Resistivity",
+    "Current",
+    "Ampere",
+    "Volt"
   ],
   "homepage": "https://github.com/martinahlqvist/WireGauge#readme",
   "bugs": {

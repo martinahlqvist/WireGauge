@@ -1,17 +1,7 @@
-/*
-
-A = cross-sectional area in square meters
-p = conductor resistivity in ohm-meters (Ω·m)
-L = length in meters
-I = current in amps
-V = allowable voltage drop in volts
-
-*/
-
 /**
- * Räknar ut 
- * @param {*} material 
- * @returns resistivity in 
+ * Beräkna resistivitet hos olika material
+ * @param {*} material
+ * @returns resistivitet i Ω·m
  */
 function calculateResistivity(material) {
   let iacsPercent;
@@ -34,56 +24,88 @@ function calculateResistivity(material) {
   }
 
   // Resistivitet för 100% IACS vid 20°C i Ω·m
-  const baseResistivity = 1.7241e-8; 
+  const baseResistivity = 1.7241e-8;
 
-  // Dividera med procentandelen (som decimal) eftersom 
+  // Dividera med procentandelen (som decimal) eftersom
   // bättre ledningsförmåga = lägre resistivitet
   const resistivity = baseResistivity / (iacsPercent / 100);
 
   return resistivity;
 }
 
+function getMaxCurrentForArea(area, isBundled = false) {
+  // En förenklad modell av IEC-tabeller för PVC-kabel i luft
+  // Kapaciteten ökar inte linjärt med arean
+  const baseCapacity = 13.5 * Math.pow(area, 0.625);
+
+  let factor = 1.0;
+  if (isBundled) factor *= 0.7; // Sänk kapacitet om kablar ligger tätt
+
+  return baseCapacity * factor;
+
+  // En förenklad men realistisk modell för värmetålighet (PVC i rör/vägg)
+  /*
+  // Dessa värden är baserade på svenska standarden SS 436 40 00 (ungefärliga)
+  if (area < 1.5) return area * 6; // Små kablar är känsliga
+  if (area === 1.5) return 13; // 1.5 mm² tål ca 13A (vid 25°C i rör)
+  if (area === 2.5) return 18; // 2.5 mm² tål ca 18A
+  if (area === 4) return 24;
+  if (area === 6) return 31;
+  if (area === 10) return 43;
+
+  // För större areor ökar inte kapaciteten linjärt
+  return 13.5 * Math.pow(area, 0.625) * 0.8;
+  */
+}
 
 /**
- * 
- * @param {*} amps 
- * @param {*} volt 
+ * Beräkna minsta rekommenderade tjocklek på kabel
+ * @param {*} amps
+ * @param {*} volt
  * @param {*} length i meter
- * @param {*} material 
- * @returns 
+ * @param {*} material
+ * @returns
  */
-function minimumWireSizeFormula(amps, volt, length, material, allowableDropPercent = 0.03) {
-  // Hämta resistiviteten för materialet (vid 20°C)
+function minimumWireSizeFormula(
+  amps,
+  volt,
+  length,
+  material,
+  allowableDropPercent = 0.03,
+) {
   const rho = calculateResistivity(material);
   const maxVoltageDrop = volt * allowableDropPercent;
-  const areaVoltageDrop = (2 * length * amps * rho) / maxVoltageDrop * 1e6;
 
-  // Tumregel för att undvika överhettning
-  const areaHeatSafety = amps / 5;
-  
-  // Kolla vilket värde som är störst
-  const requiredArea = Math.max(areaVoltageDrop, areaHeatSafety);
+  // Beräkna minsta area baserat på spänningsfall
+  let requiredArea = ((2 * length * amps * rho) / maxVoltageDrop) * 1e6;
 
-  // Hitta match bland standardstorlekar
+  // Kontrollera mot värme (Standardstorlekar)
   const standardSizes = [0.75, 1, 1.5, 2.5, 4, 6, 10, 16, 25, 35, 50, 70];
-  const recommended = standardSizes.find(s => s >= requiredArea) || "Specialdimension krävs";
+
+  // Hitta den första storleken som uppfyller BÅDE spänningsfall och värmekrav
+  const recommended = standardSizes.find((size) => {
+    const voltageDropOk = size >= requiredArea;
+    const heatOk = amps <= getMaxCurrentForArea(size); // Kolla om storleken tål strömmen
+    return voltageDropOk && heatOk;
+  });
 
   return {
-    theoretical: requiredArea.toFixed(2),
-    recommended: recommended
+    theoreticalAreaByDrop: requiredArea.toFixed(2)*1,
+    recommended: recommended || "Specialdimension krävs",
   };
-
 }
 
 
 
-console.log("Kopparresistivitet:", calculateResistivity("copper"), "Ω·m");
-console.log("Aluminiumresistivitet:", calculateResistivity("aluminium"), "Ω·m");
-console.log("Guldresistivitet:", calculateResistivity("gold"), "Ω·m");
+console.log("10amp 230v 25m:", minimumWireSizeFormula(10, 230, 25, "copper").recommended, "mm2");
 
+console.log("10amp 12v 5m:", minimumWireSizeFormula(10, 12, 5, "copper").recommended, "mm2");
+console.log("65amp 12v 0.25m:", 
+  minimumWireSizeFormula(65, 12, 0.25, "copper", 0.01).recommended,
+  "mm2",
+);
+console.log("10amp 12v 7m:", minimumWireSizeFormula(10, 12, 7, "copper", 0.01).recommended, "mm2");
 
-console.log(minimumWireSizeFormula(10, 230, 25, "copper"), "mm2");
+console.log("3amp 5V 1m:", minimumWireSizeFormula(3, 5, 1, "copper").recommended, "mm2");
 
-console.log(minimumWireSizeFormula(10, 12, 25, "copper").recommended, "mm2");
-console.log(minimumWireSizeFormula(65, 12, 0.5, "copper", 0.01).recommended, "mm2");
-console.log(minimumWireSizeFormula(10, 12, 7).recommended, "mm2");
+console.log("50amp 12V 3.5m:", minimumWireSizeFormula(50, 12, 3.5, "copper", 0.01).recommended, "mm2");

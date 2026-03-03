@@ -1,7 +1,7 @@
 {
   "name": "wiregauge",
   "version": "1.0.0",
-  "description": "Calculate cable width",
+  "description": "Calculate cable area based on different factors",
   "keywords": [
     "Wire",
     "Resistivity",

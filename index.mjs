@@ -4,36 +4,36 @@ import { calculateResistivity } from "./src/resources/calculateResistivity.mjs";
 
 console.log(
     "10amp 230v 25m:",
-    minimumWireSizeFormula(10, 230, 25, "copper").recommended,
-    "mm2",
+    minimumWireSizeFormula(10, 25, 0.1).recommended,
+    "mm²",
 );
 
 console.log(
     "10amp 12v 5m:",
-    minimumWireSizeFormula(10, 12, 5, "copper").recommended,
-    "mm2",
+    minimumWireSizeFormula(10, 5, 0.1).recommended,
+    "mm²",
 );
 console.log(
     "65amp 12v 0.25m:",
-    minimumWireSizeFormula(65, 12, 0.25, "copper", 0.01).recommended,
-    "mm2",
+    minimumWireSizeFormula(65, 0.25, "copper", 0.01).recommended,
+    "mm²",
 );
 console.log(
     "10amp 12v 7m:",
-    minimumWireSizeFormula(10, 12, 7, "copper", 0.01).recommended,
-    "mm2",
+    minimumWireSizeFormula(10, 7, "copper", 0.01).recommended,
+    "mm²",
 );
 
 console.log(
     "3amp 5V 1m:",
-    minimumWireSizeFormula(3, 5, 1, "copper").recommended,
-    "mm2",
+    minimumWireSizeFormula(3, 1, 0.1).recommended,
+    "mm²",
 );
 
 console.log(
     "50amp 12V 3.5m:",
-    minimumWireSizeFormula(50, 12, 3.5, "copper", 0.01).recommended,
-    "mm2",
+    minimumWireSizeFormula(50, 3.5, 0.1).recommended,
+    "mm²",
 );
 
 console.log(
@@ -43,3 +43,176 @@ console.log(
 );
 
 console.log("Resistivitet för guld", calculateResistivity("gold"), "Ω·m");
+
+console.log("Laddkretsen");
+let A = 50;
+let drop = 0.1;
+console.log(
+    A + "A med spänningsfall på " + drop + "V = ",
+    minimumWireSizeFormula(A, 1.5, drop).recommended,
+    "ska vara",
+    35,
+);
+console.log(
+    A + "A med spänningsfall på " + drop + "V = ",
+    minimumWireSizeFormula(A, 2.5, drop).recommended,
+    "ska vara",
+    50,
+);
+console.log(
+    A + "A med spänningsfall på " + drop + "V = ",
+    minimumWireSizeFormula(A, 3.5, drop).recommended,
+    "ska vara",
+    70,
+);
+console.log(
+    A + "A med spänningsfall på " + drop + "V = ",
+    minimumWireSizeFormula(A, 4.5, drop).recommended,
+    "ska vara",
+    95,
+);
+console.log(
+    A + "A med spänningsfall på " + drop + "V = ",
+    minimumWireSizeFormula(A, 5.5, drop).recommended,
+    "ska vara",
+    120,
+);
+
+console.log("Bogpropeller eller ankarvinsch");
+A = 250;
+drop = 1;
+console.log(
+    A + "A med spänningsfall på " + drop + "V = ",
+    minimumWireSizeFormula(A, 2.5, drop).recommended,
+    "ska vara",
+    25,
+);
+console.log(
+    A + "A med spänningsfall på " + drop + "V = ",
+    minimumWireSizeFormula(A, 3.5, drop).recommended,
+    "ska vara",
+    35,
+);
+console.log(
+    A + "A med spänningsfall på " + drop + "V = ",
+    minimumWireSizeFormula(A, 4.5, drop).recommended,
+    "ska vara",
+    50,
+);
+console.log(
+    A + "A med spänningsfall på " + drop + "V = ",
+    minimumWireSizeFormula(A, 5.5, drop).recommended,
+    "ska vara",
+    70,
+);
+console.log("Lanternor i mast");
+A = 2;
+drop = 0.5;
+console.log(
+    A + "A med spänningsfall på " + drop + "V = ",
+    minimumWireSizeFormula(A, 18, drop).recommended,
+    "ska vara",
+    2.5,
+);
+console.log(
+    A + "A med spänningsfall på " + drop + "V = ",
+    minimumWireSizeFormula(A, 20, drop).recommended,
+    "ska vara",
+    4,
+);
+console.log(
+    A + "A med spänningsfall på " + drop + "V = ",
+    minimumWireSizeFormula(A, 25, drop).recommended,
+    "ska vara",
+    4,
+);
+console.log("Matning till elcentral");
+A = 50;
+drop = 1; // V
+console.log(
+    A + "A med spänningsfall på " + drop + "V = ",
+    minimumWireSizeFormula(A, 2.5, drop).recommended,
+    "ska vara",
+    10,
+);
+console.log(
+    A + "A med spänningsfall på " + drop + "V = ",
+    minimumWireSizeFormula(A, 3.5, drop).recommended,
+    "ska vara",
+    16,
+);
+console.log(
+    A + "A med spänningsfall på " + drop + "V = ",
+    minimumWireSizeFormula(A, 4.5, drop).recommended,
+    "ska vara",
+    25,
+);
+console.log(
+    A + "A med spänningsfall på " + drop + "V = ",
+    minimumWireSizeFormula(A, 5.5, drop).recommended,
+    "ska vara",
+    25,
+);
+console.log(
+    A + "A med spänningsfall på " + drop + "V = ",
+    minimumWireSizeFormula(A, 6.5, drop).recommended,
+    "ska vara",
+    25,
+);
+console.log(
+    A + "A med spänningsfall på " + drop + "V = ",
+    minimumWireSizeFormula(A, 7.5, drop).recommended,
+    "ska vara",
+    35,
+);
+console.log(
+    A + "A med spänningsfall på " + drop + "V = ",
+    minimumWireSizeFormula(A, 8.5, drop).recommended,
+    "ska vara",
+    35,
+);
+console.log("Solpanel eller laddare");
+A = 4;
+drop = 0.1; // V
+console.log(
+    A + "A med spänningsfall på " + drop + "V = ",
+    minimumWireSizeFormula(A, 2.5, drop).recommended,
+    "ska vara",
+    4,
+);
+console.log(
+    A + "A med spänningsfall på " + drop + "V = ",
+    minimumWireSizeFormula(A, 3.5, drop).recommended,
+    "ska vara",
+    6,
+);
+console.log(
+    A + "A med spänningsfall på " + drop + "V = ",
+    minimumWireSizeFormula(A, 4.5, drop).recommended,
+    "ska vara",
+    10,
+);
+console.log(
+    A + "A med spänningsfall på " + drop + "V = ",
+    minimumWireSizeFormula(A, 5.5, drop).recommended,
+    "ska vara",
+    10,
+);
+console.log(
+    A + "A med spänningsfall på " + drop + "V = ",
+    minimumWireSizeFormula(A, 6.5, drop).recommended,
+    "ska vara",
+    10,
+);
+console.log(
+    A + "A med spänningsfall på " + drop + "V = ",
+    minimumWireSizeFormula(A, 7.5, drop).recommended,
+    "ska vara",
+    16,
+);
+console.log(
+    A + "A med spänningsfall på " + drop + "V = ",
+    minimumWireSizeFormula(A, 8.5, drop).recommended,
+    "ska vara",
+    16,
+);

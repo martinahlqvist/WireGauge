@@ -1,3 +1,5 @@
+// Kollade
+//https://en.wikipedia.org/wiki/American_wire_gauge
 const AWG_TABLE = {
     0.75: "18",
     1: "17",
@@ -52,8 +54,6 @@ export function mmToAWG(area) {
 }
 
 export function mm2ToAWG(area) {
-    q;
-
     if (!Number.isFinite(area) || area <= 0) return null;
 
     // area → diameter
@@ -63,6 +63,15 @@ export function mm2ToAWG(area) {
     const awg = 36 - 39 * (Math.log(diameter / 0.127) / Math.log(92));
 
     return Math.round(awg);
+}
+
+export function mm2ToAWGString(area) {
+    const awg = mm2ToAWG(area);
+    if (awg === null) return null;
+
+    if (awg >= 1) return String(awg);
+
+    return `${Math.abs(awg) + 1}/0`;
 }
 
 /**

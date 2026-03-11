@@ -38,8 +38,7 @@ export function minimumWireSizeFormula(
     const requiredArea = (area / maxVoltageDrop) * heatAndCorrosionFactor;
 
     const standardSizes = [
-        0.75, 1, 1.5, 2.5, 4, 4.5, 6, 10, 16, 25, 35, 50, 70, 95, 120, 150, 185,
-        240,
+        0.75, 1, 1.5, 2.5, 4, 6, 10, 16, 25, 35, 50, 70, 95, 120, 150, 185, 240,
     ];
 
     const recommended = standardSizes.find((size) => {

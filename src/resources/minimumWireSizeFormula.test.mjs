@@ -56,6 +56,10 @@ test("Solpanel eller laddare", () => {
     expect(minimumWireSizeFormula(A, 8.5, drop).recommended).toBe(16);
 });
 
+// https://www.insulatedcables.co.in/electrical-cable-size-calculator.html
+
+// prettier-ignore
+
 // Exempel från https://sutars.com/support/kabeldimensionering/lathund-for-kabeldimensionering/
 
 /*

@@ -83,37 +83,37 @@ A = 250;
 drop = 1;
 console.log(
     A + "A med spänningsfall på " + drop + "V = ",
-    minimumWireSizeFormula(A, 2.5, drop).recommended,
+    minimumWireSizeFormula(A, 2.5, drop, "intermittent").recommended,
     "ska vara",
     25,
 );
 console.log(
     A + "A med spänningsfall på " + drop + "V = ",
-    minimumWireSizeFormula(A, 3.5, drop).recommended,
+    minimumWireSizeFormula(A, 3.5, drop, "intermittent").recommended,
     "ska vara",
     35,
 );
 console.log(
     A + "A med spänningsfall på " + drop + "V = ",
-    minimumWireSizeFormula(A, 4.5, drop).recommended,
+    minimumWireSizeFormula(A, 4.5, drop, "intermittent").recommended,
     "ska vara",
     50,
 );
 console.log(
     A + "A med spänningsfall på " + drop + "V = ",
-    minimumWireSizeFormula(A, 5.5, drop).recommended,
+    minimumWireSizeFormula(A, 5.5, drop, "intermittent").recommended,
     "ska vara",
     70,
 );
 console.log("Lanternor i mast");
 A = 2;
 drop = 0.5;
-console.log(
-    A + "A med spänningsfall på " + drop + "V = ",
-    minimumWireSizeFormula(A, 18, drop).recommended,
-    "ska vara",
-    2.5,
-);
+//console.log(
+//    A + "A med spänningsfall på " + drop + "V = ",
+//    minimumWireSizeFormula(A, 18, drop).recommended,
+//    "ska vara",
+//    2.5,
+//);
 console.log(
     A + "A med spänningsfall på " + drop + "V = ",
     minimumWireSizeFormula(A, 20, drop).recommended,
@@ -128,7 +128,7 @@ console.log(
 );
 console.log("Matning till elcentral");
 A = 50;
-drop = 1; // V
+drop = 0.5; // V
 console.log(
     A + "A med spänningsfall på " + drop + "V = ",
     minimumWireSizeFormula(A, 2.5, drop).recommended,

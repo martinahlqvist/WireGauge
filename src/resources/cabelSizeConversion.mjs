@@ -25,8 +25,6 @@ export function calculatedmm2ToAWG(area) {
     // diameter → AWG
     const awg = 36 - 39 * (Math.log(diameter / 0.127) / Math.log(92));
 
-    console.log(awg);
-
     return Math.round(awg);
 }
 

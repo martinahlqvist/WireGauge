@@ -1,3 +1,5 @@
+import { fusingCurrent } from "./fusingCurrent.mjs";
+
 /**
  * Maximal ström för ytan i mm2
  * @param {*} area
@@ -11,4 +13,18 @@ export function getMaxCurrentForArea(area, isBundled = false) {
     let factor = 1.0;
     if (isBundled) factor *= 0.7; // Sänk kapacitet om kablar ligger tätt
     return baseCapacity * factor;
+}
+
+/**
+ * Returnerar en profil för kabelns strömgränser
+ */
+export function getCableSafetyProfile(area, material, isBundled = false) {
+    const maxSafe = getMaxCurrentForArea(area, isBundled);
+    const fusingPoint = fusingCurrent(area, material);
+
+    return {
+        safeLimit: Math.round(maxSafe), // Gräns för daglig drift
+        fusingLimit: Math.round(fusingPoint), // Gräns för totalt haveri
+        safetyMargin: Math.round((fusingPoint / maxSafe) * 100) + "%",
+    };
 }

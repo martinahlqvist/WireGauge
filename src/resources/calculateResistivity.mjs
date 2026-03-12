@@ -1,3 +1,5 @@
+import { baseResistivity } from "./constants.mjs";
+
 /**
  * Beräkna resistivitet hos olika material
  * @param {*} material
@@ -22,9 +24,6 @@ export function calculateResistivity(material) {
         default:
             iacsPercent = 100.0;
     }
-
-    // Resistivitet för 100% IACS vid 20°C i Ω·m
-    const baseResistivity = 1.7241e-8;
 
     // Dividera med procentandelen (som decimal) eftersom
     // bättre ledningsförmåga = lägre resistivitet

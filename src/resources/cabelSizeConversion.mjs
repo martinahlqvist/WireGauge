@@ -1,77 +1,52 @@
-// Kollade
-//https://en.wikipedia.org/wiki/American_wire_gauge
-const AWG_TABLE = {
-    0.75: "18",
-    1: "17",
-    1.5: "15",
-    2.5: "13",
-    4: "11",
-    6: "9",
-    10: "7",
-    16: "6",
-    25: "3",
-    35: "2",
-    50: "1/0",
-    70: "2/0",
-    95: "3/0",
-    120: "4/0",
-    150: "4/0",
-    185: "4/0",
-    240: "4/0",
-};
+import { AWG_TABLE, standardWireSizes } from "./constants.mjs";
 
 /**
- * Konverterar en area i mm² till motsvarande AWG-storlek enligt
- * tabellen nedan. Förväntar sig ett numeriskt värde och returnerar
- * en sträng som representerar AWG‑storleken.
- *
- * 1.0  ->  "17"
- * 1.5  ->  "15"
- * 2.5  ->  "13"
- * 4.0  ->  "11"
- * 6.0  ->  "9"
- * 10.0 ->  "7"
- * 16.0 ->  "6"
- * 25.0 ->  "3"
- * 35.0 ->  "2"
- * 50.0 ->  "1/0"
- * 70.0 ->  "2/0"
- * 95.0 ->  "3/0"
- * 120.0->  "4/0"
- *
- * Om värdet inte finns i tabellen returneras en tom sträng. Eventuell
- * avrundning eller hantering av mellanvärden sköts av den som anropar
- * funktionen.
+ * Konverterar en area i mm² till motsvarande AWG-storlek.
+ * arean räknas om till standard storlek innan konvertering.
  *
  * @param {number} area - area i mm²
  * @returns {string} AWG‑storlek
  */
-export function mmToAWG(area) {
+export function oldmmToAWG(area) {
     const standardArea = areaToStandardSize(area);
     if (!standardArea) return null;
 
     return AWG_TABLE[standardArea] ?? null;
 }
 
-export function mm2ToAWG(area) {
-    if (!Number.isFinite(area) || area <= 0) return null;
+export function calculatedmm2ToAWG(area) {
+    const standardArea = areaToStandardSize(area);
+
+    if (!Number.isFinite(standardArea) || standardArea <= 0) return null;
 
     // area → diameter
-    const diameter = Math.sqrt((4 * area) / Math.PI);
+    const diameter = Math.sqrt((4 * standardArea) / Math.PI);
 
     // diameter → AWG
     const awg = 36 - 39 * (Math.log(diameter / 0.127) / Math.log(92));
 
+    console.log(awg);
+
     return Math.round(awg);
 }
 
-export function mm2ToAWGString(area) {
-    const awg = mm2ToAWG(area);
+export function mmToAWG(area) {
+    const awg = calculatedmm2ToAWG(area);
     if (awg === null) return null;
 
     if (awg >= 1) return String(awg);
 
-    return `${Math.abs(awg) + 1}/0`;
+    const zeroSize = `${Math.abs(awg) + 1}/0`;
+
+    if (
+        (zeroSize == "1/0") | (zeroSize == "2/0") ||
+        zeroSize == "3/0" ||
+        zeroSize == "4/0"
+    ) {
+        return zeroSize;
+    } else {
+        return "4/0";
+    }
 }
 
 /**
@@ -98,10 +73,6 @@ export function areaToStandardSize(requiredArea) {
         return 0.75;
     }
 
-    const standardSizes = [
-        0.75, 1, 1.5, 2.5, 4, 6, 10, 16, 25, 35, 50, 70, 95, 120, 150, 185, 240,
-    ];
-
-    const recommended = standardSizes.find((size) => size >= requiredArea);
+    const recommended = standardWireSizes.find((size) => size >= requiredArea);
     return recommended != null ? recommended : null;
 }

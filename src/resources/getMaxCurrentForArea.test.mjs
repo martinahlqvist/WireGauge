@@ -1,5 +1,6 @@
 import { expect, test } from "vitest";
 import { getMaxCurrentForArea } from "./getMaxCurrentForArea.mjs";
+import { standardWireSizes } from "./constants.mjs";
 
 test("Ampacity approximation from chart", () => {
     expect(getMaxCurrentForArea(1.5)).toBeGreaterThanOrEqual(15);
@@ -34,11 +35,9 @@ test("Ampacity approximation from chart", () => {
 });
 
 test("Ampacity increases with cable size", () => {
-    const sizes = [1.5, 2.5, 4, 6, 10, 16, 25, 35, 50, 70];
-
-    for (let i = 1; i < sizes.length; i++) {
-        expect(getMaxCurrentForArea(sizes[i])).toBeGreaterThan(
-            getMaxCurrentForArea(sizes[i - 1]),
+    for (let i = 1; i < standardWireSizes.length; i++) {
+        expect(getMaxCurrentForArea(standardWireSizes[i])).toBeGreaterThan(
+            getMaxCurrentForArea(standardWireSizes[i - 1]),
         );
     }
 });

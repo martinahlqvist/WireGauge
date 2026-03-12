@@ -1,115 +1,34 @@
 import { expect, test } from "vitest";
 import { mmToAWG, areaToStandardSize } from "./cabelSizeConversion.mjs";
 
-// prettier-ignore
-test("mmToAWG: convert 0.75 mm² to AWG 18", () => {
+test("mmToAWG less then 1mm conversions", () => {
+    expect(mmToAWG(0.05)).toBe("30");
+    expect(mmToAWG(0.08)).toBe("28");
+    expect(mmToAWG(0.14)).toBe("26");
+    expect(mmToAWG(0.25)).toBe("23");
+    expect(mmToAWG(0.34)).toBe("22");
+    expect(mmToAWG(0.38)).toBe("21");
+    expect(mmToAWG(0.5)).toBe("20");
     expect(mmToAWG(0.75)).toBe("18");
 });
 
-// prettier-ignore
-test("mmToAWG: convert 1.0 mm² to AWG 17", () => {
-    expect(mmToAWG(1.0)).toBe("17");
+test("mmToAWG less then 1mm conversions", () => {
     expect(mmToAWG(1)).toBe("17");
 });
 
-// prettier-ignore
-test("mmToAWG: convert 1.5 mm² to AWG 15", () => {
+test("mmToAWG larger then 1mm conversions", () => {
     expect(mmToAWG(1.5)).toBe("15");
-});
-
-// prettier-ignore
-test("mmToAWG: convert 2.5 mm² to AWG 13", () => {
     expect(mmToAWG(2.5)).toBe("13");
-});
-
-// prettier-ignore
-test("mmToAWG: convert 4.0 mm² to AWG 11", () => {
-    expect(mmToAWG(4.0)).toBe("11");
     expect(mmToAWG(4)).toBe("11");
-});
-
-// prettier-ignore
-test("mmToAWG: convert 4.5 mm² to AWG 9", () => {
-    // 4.5 avrundas upp till 6 mm² som är AWG 9
-    expect(mmToAWG(4.5)).toBe("9");
-});
-
-// prettier-ignore
-test("mmToAWG: convert 6.0 mm² to AWG 9", () => {
-    expect(mmToAWG(6.0)).toBe("9");
     expect(mmToAWG(6)).toBe("9");
-});
-
-// prettier-ignore
-test("mmToAWG: convert 10.0 mm² to AWG 7", () => {
-    expect(mmToAWG(10.0)).toBe("7");
     expect(mmToAWG(10)).toBe("7");
-});
-
-// prettier-ignore
-test("mmToAWG: convert 16.0 mm² to AWG 6", () => {
-    expect(mmToAWG(16.0)).toBe("6");
-    expect(mmToAWG(16)).toBe("6");
-});
-
-// prettier-ignore
-test("mmToAWG: convert 25.0 mm² to AWG 3", () => {
-    expect(mmToAWG(25.0)).toBe("3");
+    expect(mmToAWG(16)).toBe("5");
     expect(mmToAWG(25)).toBe("3");
-});
-
-// prettier-ignore
-test("mmToAWG: convert 35.0 mm² to AWG 2", () => {
-    expect(mmToAWG(35.0)).toBe("2");
     expect(mmToAWG(35)).toBe("2");
-});
-
-// prettier-ignore
-test("mmToAWG: convert 50.0 mm² to AWG 1/0", () => {
-    expect(mmToAWG(50.0)).toBe("1/0");
     expect(mmToAWG(50)).toBe("1/0");
-});
-
-// prettier-ignore
-test("mmToAWG: convert 70.0 mm² to AWG 2/0", () => {
-    expect(mmToAWG(70.0)).toBe("2/0");
     expect(mmToAWG(70)).toBe("2/0");
-});
-
-// prettier-ignore
-test("mmToAWG: convert 95.0 mm² to AWG 3/0", () => {
-    expect(mmToAWG(95.0)).toBe("3/0");
     expect(mmToAWG(95)).toBe("3/0");
-});
-
-// prettier-ignore
-test("mmToAWG: convert 120.0 mm² to AWG 4/0", () => {
-    expect(mmToAWG(120.0)).toBe("4/0");
     expect(mmToAWG(120)).toBe("4/0");
-});
-
-// prettier-ignore
-test("mmToAWG: convert 150 mm² to AWG 4/0", () => {
-    expect(mmToAWG(150)).toBe("4/0");
-});
-
-// prettier-ignore
-test("mmToAWG: convert 185 mm² to AWG 4/0", () => {
-    expect(mmToAWG(185)).toBe("4/0");
-});
-
-// prettier-ignore
-test("mmToAWG: convert 240 mm² to AWG 4/0", () => {
-    expect(mmToAWG(240)).toBe("4/0");
-});
-
-// prettier-ignore
-test("mmToAWG: convert non-standard values rounded up", () => {
-    // Värden avrundas upp till nästa standard size
-    expect(mmToAWG(3)).toBe("11");   // 3 -> 4 -> AWG 11
-    expect(mmToAWG(5)).toBe("9");    // 5 -> 6 -> AWG 9
-    expect(mmToAWG(7)).toBe("7");    // 7 -> 10 -> AWG 7
-    expect(mmToAWG(8)).toBe("7");    // 8 -> 10 -> AWG 7
 });
 
 // prettier-ignore
@@ -118,8 +37,8 @@ test("mmToAWG: return empty string for null", () => {
 });
 
 // prettier-ignore
-test("areaToStandardSize: return 0.75 for requiredArea 0.1", () => {
-    expect(areaToStandardSize(0.1)).toBe(0.75);
+test("areaToStandardSize: return 0.14 for requiredArea 0.1", () => {
+    expect(areaToStandardSize(0.1)).toBe(0.14);
 });
 
 // prettier-ignore

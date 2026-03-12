@@ -1,6 +1,7 @@
 import { minimumWireSizeFormula } from "./src/resources/minimumWireSizeFormula.mjs";
 import { getMaxCurrentForArea } from "./src/resources/getMaxCurrentForArea.mjs";
 import { calculateResistivity } from "./src/resources/calculateResistivity.mjs";
+import { mmToAWG } from "./src/resources/cabelSizeConversion.mjs";
 
 console.log(
     "10amp 230v 25m:",
@@ -216,3 +217,25 @@ console.log(
     "ska vara",
     16,
 );
+// prettier-ignore
+console.log("Konverterad storlek", mmToAWG(0.05), "ska vara 30");
+console.log("Konverterad storlek", mmToAWG(0.08), "ska vara 28");
+console.log("Konverterad storlek", mmToAWG(0.14), "ska vara 26");
+console.log("Konverterad storlek", mmToAWG(0.25), "ska vara 24");
+console.log("Konverterad storlek", mmToAWG(0.34), "ska vara 22");
+console.log("Konverterad storlek", mmToAWG(0.38), "ska vara 21");
+console.log("Konverterad storlek", mmToAWG(0.5), "ska vara 20");
+console.log("Konverterad storlek", mmToAWG(0.75), "ska vara 19");
+console.log("Konverterad storlek", mmToAWG(1), "ska vara 18");
+console.log("Konverterad storlek", mmToAWG(1.5), "ska vara 16");
+console.log("Konverterad storlek", mmToAWG(2.5), "ska vara 14");
+console.log("Konverterad storlek", mmToAWG(4), "ska vara 12");
+console.log("Konverterad storlek", mmToAWG(6), "ska vara 10");
+console.log("Konverterad storlek", mmToAWG(10), "ska vara 8");
+console.log("Konverterad storlek", mmToAWG(16), "ska vara 6");
+console.log("Konverterad storlek", mmToAWG(25), "ska vara 4");
+console.log("Konverterad storlek", mmToAWG(35), "ska vara 1 eller 2");
+console.log("Konverterad storlek", mmToAWG(50), "ska vara 1/0");
+console.log("Konverterad storlek", mmToAWG(70), "ska vara 3/0 eller 2/0");
+console.log("Konverterad storlek", mmToAWG(95), "ska vara 4/0");
+console.log("Konverterad storlek", mmToAWG(120), "ska vara 4/0");
